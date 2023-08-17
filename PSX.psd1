@@ -12,7 +12,7 @@ ModuleVersion = '1.0'
 GUID = '62be925a-e6c0-42be-9ed6-80a352c5860d'
 Author = 'X0RW3LL'
 Copyright = '(c) X0RW3LL. All rights reserved.'
-Description = 'PSX provides a collection of the most common operations that rely on PowerShell like encoding, hosting and converting powershell payloads'
+Description = 'PSX provides a collection of the most common operations that rely on PowerShell like encoding and hosting PowerShell-specific payloads'
 NestedModules = @(
                     "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Invoke-Server.ps1",
                     "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Invoke-B64.ps1"
