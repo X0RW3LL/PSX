@@ -33,6 +33,7 @@ function Convert-Shell
     Can be omitted since -i will pre-populate
     both -lhost and -srvhost
     Alias: lh
+    Defaults to tun0
 
 .PARAMETER lport
     Listening port (bind|reverse)
@@ -97,7 +98,7 @@ function Convert-Shell
 
     [Parameter(Mandatory = $false)]
     [Alias("lh")]
-    [String]$lhost = 'tun0',
+    [String]$lhost = '',
 
 		[Parameter(Mandatory = $true)]
     [Alias("lp")]
@@ -168,6 +169,10 @@ function Convert-Shell
   switch -Regex ( $lhost ) {
     
     "^0.0.0.0$" {
+        $lhost = $ip
+    }
+
+    "^$" {
         $lhost = $ip
     }
 
