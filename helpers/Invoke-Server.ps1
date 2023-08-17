@@ -20,6 +20,10 @@ function Invoke-Server
     Bind address
     Alias: b
 
+.PARAMETER pcb
+    Suppresses netcat reminder if selected payload
+    is a powercat bind shell
+
 .EXAMPLE
     Invoke-Server -d $env:HOME/share -b 172.16.20.10 -p 80
 #>
@@ -35,7 +39,10 @@ function Invoke-Server
 
     [Parameter(Mandatory = $false)]
     [Alias("b")]
-    [String]$bind = '0.0.0.0'
+    [String]$bind = '0.0.0.0',
+
+    [Parameter(Mandatory = $false)]
+    [Switch]$pcb = $false
 
     )
 
@@ -44,13 +51,17 @@ function Invoke-Server
     Write-Host "[!] Currently serving: $directory"
     Write-Host "[!] Ctrl+C terminates the server" -ForegroundColor Magenta
     Write-Output ""
-    Write-Warning "Do not forget to start a netcat listener on port $lport"
+    if ( !$pcb ) {
+      Write-Warning "Do not forget to start a netcat listener on port $lport"
+    }
     if ( $directory -like "*/PSX/extensions" ) {
       # Automation sauce for Invoke-ConPtyShell
       Write-Prompts -m "`$ nc -lnvp $lport -c 'stty raw -echo; fg; reset'" -t w
     }
     else {
-      Write-Prompts -m "`$ nc -lnvp $lport" -t w
+      if ( !$pcb ) {
+        Write-Prompts -m "`$ nc -lnvp $lport" -t w
+      }
     }
     python3 -m http.server -b $bind -d $directory $port
 }
