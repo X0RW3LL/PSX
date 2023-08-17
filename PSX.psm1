@@ -295,7 +295,12 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
 
           # Spin up a Python HTTP server, hosting powercat.ps1 from its original location
           if ( $serve ) {
-              Invoke-Server -b $srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $srvport
+              if ( !$bind ) {
+                  Invoke-Server -b $srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $srvport
+              }
+              else {
+                  Invoke-Server -b $srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $srvport -pcb
+              }
           }
         }
 
