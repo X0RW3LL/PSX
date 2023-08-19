@@ -9,11 +9,13 @@ function Invoke-B64
     to a base64-encoded string to be executed by the target host
     Function also supports decoding a string by passing the -d switch
 
-.PARAMETER payload
+.PARAMETER Payload
     Payload to be encoded
+    Alias: p
 
-.PARAMETER decode
+.PARAMETER Decode
     Decodes the given base64-encoded payload
+    Alias: d
 
 .INPUTS
     String
@@ -31,38 +33,38 @@ function Invoke-B64
   param (
     [Parameter(Mandatory = $true)]
     [Alias("p")]
-    [String]$payload,
+    [String]$Payload,
 
     [Parameter(Mandatory = $false)]
     [Alias("i")]
-    [Switch]$internal,
+    [Switch]$Internal,
 
     [Parameter(Mandatory = $false)]
     [Alias("d")]
-    [Switch]$decode = $false
+    [Switch]$Decode = $false
   )
 
   $cmd = "powershell -nop -ep unrestricted -w hidden -e"
-  $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($payload))
+  $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($Payload))
   Set-Clipboard -Value ($cmd + ' ' + $enc)
 
-  if( $decode ) {
-    $dec = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($payload))
+  if( $Decode ) {
+    $dec = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($Payload))
     Write-Output ""
     Write-Host "[+] Decoded payload:" -ForegroundColor Green
     Write-Host "--------------------" -ForegroundColor Green
-    Write-Host $dec -ForegroundColor green
+    Write-Host $dec -ForegroundColor Green
     Write-Output ""
     }
   else {
-    if ( $internal ) {
+    if ( $Internal ) {
         return $enc
       }
     else {
       Write-Output ""
       Write-Host "[+] Encoded payload (copied to clipboard):" -ForegroundColor Green
       Write-Host "------------------------------------------" -ForegroundColor Green
-      Write-Host $cmd $enc -ForegroundColor green
+      Write-Host $cmd $enc -ForegroundColor Green
       Write-Output ""
       }
   }
