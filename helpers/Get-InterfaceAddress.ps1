@@ -9,7 +9,7 @@ function Get-InterfaceAddress {
     This function uses iproute2 to translate interface
     names to IPv4 addresses
 
-.Parameter interface
+.Parameter Interface
     Interface name
     Alias: i
 
@@ -24,11 +24,11 @@ function Get-InterfaceAddress {
 
       [Parameter(Mandatory = $true)]
       [Alias("i")]
-      [String]$interface = "tun0"
+      [String]$Interface = "tun0"
 
     )
 
-    return ip -o a show $interface | awk -F ' *|/' '{print $4}' | grep -v ':'
+    return /usr/sbin/ip -o a show $Interface | /usr/bin/awk -F ' *|/' '{print $4}' | /usr/bin/grep -v ':'
 
 }
 
