@@ -1,1 +1,3 @@
 extensions/*
+.config/*
+!.config/*_template.json
