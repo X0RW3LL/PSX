@@ -4,55 +4,55 @@ function Write-Prompts
         
         [Parameter(Mandatory = $false)]
         [Alias("t")]
-        [String]$type,
+        [String]$Type,
 
         [Parameter(Mandatory = $false)]
         [Alias("p")]
-        [String]$payload = 'powershell -nop -ep unrestricted -w hidden -e',
+        [String]$Payload = 'powershell -nop -ep unrestricted -w hidden -e',
         
         [Parameter(Mandatory = $false)]
         [Alias("s")]
-        [String]$str = '',
+        [String]$Str = '',
 
         [Parameter(Mandatory = $false)]
         [Alias("m")]
-        [String]$message = ''
+        [String]$Message = ''
         
         )
 
-    switch ( $type ) {
+    switch ( $Type ) {
         'po' {
-            $enc = Invoke-B64 $str -internal
-            Set-Clipboard -Value ($payload + ' ' + $enc)
+            $enc = Invoke-B64 $Str -Internal
+            Set-Clipboard -Value ($Payload + ' ' + $enc)
             Write-Output ""
             Write-Host "[!] Plaintext payload:" -ForegroundColor DarkCyan
             Write-Host "----------------------" -ForegroundColor DarkCyan
-            Write-Host $payload `"$str`" -ForegroundColor DarkCyan
+            Write-Host $Payload `"$Str`" -ForegroundColor DarkCyan
             Write-Output ""
             
             Write-Host "[+] Encoded payload (copied to clipboard):" -ForegroundColor Green
             Write-Host "------------------------------------------" -ForegroundColor Green
-            Write-Host $payload $enc -ForegroundColor Green
+            Write-Host $Payload $enc -ForegroundColor Green
             Write-Output ""
         }
         's' {
             Write-Output ""
-            Write-Host $message -ForegroundColor Green
+            Write-Host $Message -ForegroundColor Green
             Write-Output ""
         }
         'e' {
             Write-Output ""
-            Write-Host $message -ForegroundColor Red
+            Write-Host $Message -ForegroundColor Red
             Write-Output ""
         }
         'w' {
             Write-Output ""
-            Write-Host $message -ForegroundColor Yellow
+            Write-Host $Message -ForegroundColor Yellow
             Write-Output ""
         }
         default {
             Write-Output ""
-            Write-Host $message
+            Write-Host $Message
             Write-Output ""
         }
     }
