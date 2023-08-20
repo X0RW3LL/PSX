@@ -17,10 +17,15 @@ NestedModules = @(
                     "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Invoke-Server.ps1",
                     "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Invoke-B64.ps1"
                     "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Write-Prompts.ps1"
-                    "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Get-InterfaceAddress.ps1"
+                    "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Get-InterfaceAddress.ps1",
+                    "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Sync-PSX.ps1"
+                    "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Set-PSXAutomation.ps1"
+                    "$env:HOME/.local/share/powershell/Modules/PSX/helpers/Get-PSXAutomation.ps1"
                     )
-FunctionsToExport = @('Convert-Shell','Invoke-B64','Invoke-Server','Get-InterfaceAddress')
+ScriptsToProcess = @("$env:HOME/.local/share/powershell/Modules/PSX/helpers/Init.ps1")
+FunctionsToExport = @('Convert-Shell','Invoke-B64','Invoke-Server','Get-InterfaceAddress','Sync-PSX','Write-Prompts','Set-PSXAutomation','Get-PSXAutomation')
+VariablesToExport = @('$conf')
 AliasesToExport = @('cvsh','ib64')
-# HelpInfoURI = ''
+HelpInfoURI = 'https://github.com/X0RW3LL/PSX'
 }
 
