@@ -29,6 +29,9 @@ function Invoke-Server
     Used to issue the correct command for each
     shell type
 
+.PARAMETER Internal
+    Internal usage
+
 .EXAMPLE
     Invoke-Server -d $env:HOME/share -b 172.16.20.10 -p 80
 #>
@@ -50,7 +53,10 @@ function Invoke-Server
     [Switch]$PCB = $false,
 
     [Parameter(Mandatory = $false)]
-    [String]$Shell = 'powercat'
+    [String]$Shell = 'powercat',
+
+    [Parameter(Mandatory = $false)]
+    [Switch]$Internal = $false
 
     )
     $automation = $conf.Preferences.Automation.Enabled
@@ -70,12 +76,14 @@ function Invoke-Server
       }
       # Automation sauce for Invoke-ConPtyShell
       if ( ($env:XDG_SESSION_TYPE -eq 'x11') -and $automation ) {
-        $depends = ($conf.Dependencies.System | Where-Object Package -eq "xdotool").Package
-        if ( /usr/bin/which $depends ) {
-          /usr/bin/xdotool key "ctrl+shift+t"; /usr/bin/xdotool type "clear"; /usr/bin/xdotool key Return; /usr/bin/xdotool type "stty raw -echo; nc -lnvp $LPORT`; stty raw echo"; /usr/bin/xdotool key Return
-        }
-        else {
-          Set-PSXAutomation -On
+        if ( $Internal ) {
+          $depends = ($conf.Dependencies.System | Where-Object Package -eq "xdotool").Package
+          if ( /usr/bin/which $depends ) {
+            /usr/bin/xdotool key "ctrl+shift+t"; /usr/bin/xdotool type "clear"; /usr/bin/xdotool key Return; /usr/bin/xdotool type "stty raw -echo; nc -lnvp $LPORT`; stty raw echo"; /usr/bin/xdotool key Return
+          }
+          else {
+            Set-PSXAutomation -On
+          }
         }
       }
     }
@@ -85,13 +93,15 @@ function Invoke-Server
             Write-Prompts -m "`$ nc -lnvp $LPORT" -t w
           }
         else {
-          if ( ($env:XDG_SESSION_TYPE -eq 'x11') ) {
-            $depends = ($conf.Dependencies.System | Where-Object Package -eq "xdotool").Package
-            if ( /usr/bin/which $depends ) {
-              /usr/bin/xdotool key "ctrl+shift+t"; /usr/bin/xdotool type "clear"; /usr/bin/xdotool key Return; /usr/bin/xdotool type "nc -lnvp $LPORT"; /usr/bin/xdotool key Return
-            }
-            else {
-              Set-PSXAutomation -On
+          if ( $env:XDG_SESSION_TYPE -eq 'x11' ) {
+            if ( $Internal ) {
+              $depends = ($conf.Dependencies.System | Where-Object Package -eq "xdotool").Package
+              if ( /usr/bin/which $depends ) {
+                /usr/bin/xdotool key "ctrl+shift+t"; /usr/bin/xdotool type "clear"; /usr/bin/xdotool key Return; /usr/bin/xdotool type "nc -lnvp $LPORT"; /usr/bin/xdotool key Return
+              }
+              else {
+                Set-PSXAutomation -On
+              }
             }
           }
         }

