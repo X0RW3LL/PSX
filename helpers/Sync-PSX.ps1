@@ -19,14 +19,14 @@ function Sync-PSX
             Write-Prompts -m "[+] PSX updated successfully. Restart the current PowerShell session for changes to take effect." -t s
         }
         else {
-            Write-Host -m "[-] PSX update failed" -t e
+            Write-Prompts -m "[-] PSX update failed" -t e
         }
     }
     elseif ( !$? ) {
         Write-Prompts -m "[-] PSX update failed. Check your local repository for unstaged commits" -t e
     }
     else {
-        Write-Host -m "[!] PSX is already up to date"
+        Write-Prompts -m "[+] PSX is already up to date" -t s
     }
 }
 
