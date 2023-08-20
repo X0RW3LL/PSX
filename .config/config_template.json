@@ -1,0 +1,28 @@
+{
+  "Preferences": [
+    {
+      "Automation": {
+        "Description": "Automates netcat listeners in new terminal tabs",
+        "Depends": "xdotool",
+        "Enabled": false
+      }
+    }
+  ],
+  "Dependencies": [
+    {
+      "System": [
+        {
+          "Package": "xdotool",
+          "Status": ""
+        }
+      ],
+      "Extensions": [
+        {
+          "Module": "Invoke-ConPtyShell",
+          "Status": ""
+        }
+      ]
+    }
+  ],
+  "initRun": true
+}
