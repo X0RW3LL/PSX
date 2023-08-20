@@ -8,17 +8,43 @@ With a few quick functions, you can now automate the whole shebang with only a f
 
 ## Features
 PSX currently provides the following features:
-- Base64-(encode|decode) payloads
-- PowerCat automation
 - ConPtyShell automation (including terminal [auto]size specification)
+- PowerCat automation
+- Base64-(encode|decode) payloads
+- Automatic payload-to-clipboard
 - Python Simple HTTP server
-- Payload to clipboard
+- [Optional] Automation for netcat listeners ***(X11 only)***
 
 ## Available Functions
 - `cvsh` -> `Convert-Shell`
 - `ib64` -> `Invoke-B64`
 - `Invoke-Server`
 - `Get-InterfaceAddress`
+- `Sync-PSX`
+- `Get-PSXAutomation` ***(X11 only)***
+- `Set-PSXAutomation` ***(X11 only)***
+
+## Heads up
+- This module **WILL NOT**, and **MUST NOT** be, run as `root`; this is by design, and I will\
+not be changing this at any point
+- Only time elevated privileges are needed is on the first invocation of the module commands\
+If you decide to enable automating netcat listeners, you will be prompted for your `sudo` password\
+to issue the command `sudo apt-get install xdotool`
+- The above command runs without verbosity, but you can see what gets installed by reading through\
+`helpers/Init.ps1`
+- Automation feature requires:
+    - `xdotool` (Initial invocation of the module commands takes care of that)
+    - X11 environment (Sorry, Waylanders...For now, maybe? :eyes:)
+    - `Convert-Shell ... -Serve`
+- When using `conpty` as the selected payload type, caution must be exercised where\
+terminal sizing is concerened. That is to say, the _current_ terminal size is chosen\
+by default unless otherwise configured. For example, if you convert a `conpty` shell\
+in a vertically-split terminal (49 rows, 95 columns), the netcat listener must be run\
+in a terminal window of the same size.If you are on an X11 environment, and you have\
+automation enabled, it is preferred to run `pwsh` in a non-split tab
+- The module is designed to be implicitly imported from the `$USER`'s `$PSModulePath`, so\
+please make sure you clone it as per the instructions. Otherwise, you will have to tweak\
+the module manifest, and any required path modifications yourself
 
 ## Cloning
 ```sh
