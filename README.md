@@ -13,6 +13,7 @@ PSX currently provides the following features:
 - Base64-(encode|decode) payloads
 - Automatic payload-to-clipboard
 - Python Simple HTTP server
+- Parameter completion
 - [Optional] Automation for netcat listeners ***(X11 only)***
 
 ## Available Functions
