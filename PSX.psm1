@@ -99,7 +99,6 @@ function Convert-Shell
     [String]$Interface = "tun0",
 
     [Parameter(Mandatory = $false)]
-    [ValidateSet("tun0", "eth0", "wlan0")]
     [Alias("lh")]
     [String]$LHOST = "",
 
