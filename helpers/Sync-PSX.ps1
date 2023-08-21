@@ -11,11 +11,11 @@ function Sync-PSX
 #>
 
     Write-Prompts -m "[!] Checking for PSX updates"
-    /usr/bin/git -C "$env:HOME/.local/share/powershell/Modules/PSX" pull --dry-run
-    if ( $? ) {
+    $remotes = /usr/bin/git -C "$env:HOME/.local/share/powershell/Modules/PSX" pull --dry-run
+    if ( $remotes ) {
         Write-Prompts -m "[!] Found new updates. Pulling from remote repository..."
         $output = /usr/bin/git -C "$env:HOME/.local/share/powershell/Modules/PSX" pull
-        if ( $? ) {
+        if ( $output ) {
             Write-Prompts -m "[+] PSX updated successfully. Restart the current PowerShell session for changes to take effect." -t s
         }
         else {
@@ -26,7 +26,7 @@ function Sync-PSX
         Write-Prompts -m "[-] PSX update failed. Check your local repository for unstaged commits" -t e
     }
     else {
-        Write-Prompts -m "[+] PSX is the latest version" -t s
+        Write-Prompts -m "[+] PSX is up to date" -t s
     }
 }
 
