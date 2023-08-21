@@ -89,14 +89,17 @@ function Convert-Shell
 	param (
 		
     [Parameter(Mandatory = $true)]
+    [ValidateSet("conpty", "powercat")]
     [Alias("t")]
     [String]$Type = "conpty",
 
     [Parameter(Mandatory = $false)]
+    [ValidateSet("tun0", "eth0", "wlan0")]
     [Alias("i")]
     [String]$Interface = "tun0",
 
     [Parameter(Mandatory = $false)]
+    [ValidateSet("tun0", "eth0", "wlan0")]
     [Alias("lh")]
     [String]$LHOST = "",
 
@@ -125,6 +128,7 @@ function Convert-Shell
     [String]$Srvport = "80",
     
 		[Parameter(Mandatory = $false)]
+    [ValidateSet("powershell", "cmd")]
     [Alias("e")]
     [String]$Exec = "powershell",
 
