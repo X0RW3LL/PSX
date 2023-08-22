@@ -23,6 +23,7 @@ function Get-InterfaceAddress {
     param (
 
       [Parameter(Mandatory = $true)]
+      [ValidateSet("eth0", "wlan0", "tun0", "lo")
       [Alias("i")]
       [String]$Interface = "tun0"
 
