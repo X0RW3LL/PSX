@@ -94,7 +94,7 @@ function Convert-Shell
     [String]$Type = "conpty",
 
     [Parameter(Mandatory = $false)]
-    [ValidateSet("tun0", "eth0", "wlan0")]
+    [ValidateSet("tun0", "eth0", "wlan0", "lo")]
     [Alias("i")]
     [String]$Interface = "tun0",
 
