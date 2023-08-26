@@ -41,7 +41,7 @@ to issue the command `sudo apt-get install xdotool`
 terminal sizing is concerened. That is to say, the _current_ terminal size is chosen\
 by default unless otherwise configured. For example, if you convert a `conpty` shell\
 in a vertically-split terminal (49 rows, 95 columns), the netcat listener must be run\
-in a terminal window of the same size.If you are on an X11 environment, and you have\
+in a terminal window of the same size. If you are on an X11 environment, and you have\
 automation enabled, it is preferred to run `pwsh` in a non-split tab
 - The module is designed to be implicitly imported from the `$USER`'s `$PSModulePath`, so\
 please make sure you clone it as per the instructions. Otherwise, you will have to tweak\
