@@ -44,7 +44,7 @@ function Invoke-B64
     [Switch]$Decode = $false
   )
 
-  $cmd = "powershell -nop -ep unrestricted -w hidden -e"
+  $cmd = "powershell -nop -ep unrestricted -w hidden -c"
   $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($Payload))
   Set-Clipboard -Value ($cmd + ' ' + $enc)
 
