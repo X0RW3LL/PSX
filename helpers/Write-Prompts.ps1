@@ -8,7 +8,7 @@ function Write-Prompts
 
         [Parameter(Mandatory = $false)]
         [Alias("p")]
-        [String]$Payload = 'powershell -nop -ep unrestricted -w hidden -e',
+        [String]$Payload = 'powershell -nop -ep unrestricted -w hidden',
         
         [Parameter(Mandatory = $false)]
         [Alias("s")]
@@ -27,12 +27,12 @@ function Write-Prompts
             Write-Output ""
             Write-Host "[!] Plaintext payload:" -ForegroundColor DarkCyan
             Write-Host "----------------------" -ForegroundColor DarkCyan
-            Write-Host $Payload `"$Str`" -ForegroundColor DarkCyan
+            Write-Host $Payload "-c" `"$Str`" -ForegroundColor DarkCyan
             Write-Output ""
             
             Write-Host "[+] Encoded payload (copied to clipboard):" -ForegroundColor Green
             Write-Host "------------------------------------------" -ForegroundColor Green
-            Write-Host $Payload $enc -ForegroundColor Green
+            Write-Host $Payload "-e" $enc -ForegroundColor Green
             Write-Output ""
         }
         's' {
