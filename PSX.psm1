@@ -94,7 +94,7 @@ function Convert-Shell
     [String]$Type = "conpty",
 
     [Parameter(Mandatory = $false)]
-    [ValidateSet("tun0", "eth0", "wlan0", "lo")]
+    [ArgumentCompletions("tun0", "eth0", "wlan0", "lo")]
     [Alias("i")]
     [String]$Interface = "tun0",
 
@@ -127,7 +127,7 @@ function Convert-Shell
     [String]$Srvport = "80",
     
 		[Parameter(Mandatory = $false)]
-    [ValidateSet("powershell", "cmd")]
+    [ArgumentCompletions("powershell", "cmd")]
     [Alias("e")]
     [String]$Exec = "powershell",
 
