@@ -36,9 +36,9 @@ to issue the command `sudo apt-get install xdotool`
 - Automation feature requires:
     - `xdotool` (Initial invocation of the module commands takes care of that)
     - X11 environment (Sorry, Waylanders...For now, maybe? :eyes:)
-    - `Convert-Shell ... -Serve`
+    - `Convert-Shell ... -Serve` (i.e the `-Serve`/`-s` switch)
 - When using `conpty` as the selected payload type, caution must be exercised where\
-terminal sizing is concerened. That is to say, the _current_ terminal size is chosen\
+terminal sizing is concerned. That is to say, the _current_ terminal size is chosen\
 by default unless otherwise configured. For example, if you convert a `conpty` shell\
 in a vertically-split terminal (49 rows, 95 columns), the netcat listener must be run\
 in a terminal window of the same size. If you are on an X11 environment, and you have\
