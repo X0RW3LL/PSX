@@ -23,7 +23,7 @@ function Write-Prompts
     switch ( $Type ) {
         'po' {
             $enc = Invoke-B64 $Str -Internal
-            Set-Clipboard -Value ($Payload + ' ' + $enc)
+            Set-Clipboard -Value ($Payload + ' -e ' + $enc)
             Write-Output ""
             Write-Host "[!] Plaintext payload:" -ForegroundColor DarkCyan
             Write-Host "----------------------" -ForegroundColor DarkCyan
