@@ -44,9 +44,8 @@ function Invoke-B64
     [Switch]$Decode = $false
   )
 
-  $cmd = "powershell -nop -ep unrestricted -w hidden -e"
+  $cmd = "powershell -nop -ep unrestricted -w hidden -e "
   $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($Payload))
-  Set-Clipboard -Value ($cmd + ' ' + $enc)
 
   if( $Decode ) {
     $dec = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($Payload))
@@ -61,6 +60,7 @@ function Invoke-B64
         return $enc
       }
     else {
+      Set-Clipboard -Value ($cmd + $enc)
       Write-Output ""
       Write-Host "[+] Encoded payload (copied to clipboard):" -ForegroundColor Green
       Write-Host "------------------------------------------" -ForegroundColor Green
